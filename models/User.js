@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    username:{
+    name:{
         type: String,
         max: 50,
         required: true,
@@ -44,10 +44,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default:""     
     },
-    profilePic:{
-        type: String,
-        default:""     
-    },
     followers:{
         type: Array,
         default:[]    
@@ -58,4 +54,4 @@ const userSchema = new mongoose.Schema({
     },
 },{timestamps:true});
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.model("users", userSchema);

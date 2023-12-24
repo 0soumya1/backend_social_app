@@ -9,21 +9,21 @@ const postSchema = new mongoose.Schema({
         type:String,
         required: true
     },
-    // username:{
-    //     type:String,
-    //     required: true
-    // },
-    // imageUrl:{
-    //     type:String,      
-    // },
-    // likes:{
-    //     type:Array,
-    //     default:[]       
-    // },
-    // comments:{
-    //     type:Array,
-    //     default:[]       
-    // },
+    userName:{
+        type:String,
+        required: true
+    },
+    imageUrl:{
+        type:String,      
+    },
+    likes:{
+        type:Array,
+        default:[]       
+    },
+    comments:{
+        type:Array,
+        default:[]       
+    },
 }, {timestamps: true})
 
-module.exports = mongoose.model("Post", postSchema);
+module.exports = mongoose.model("posts", postSchema);

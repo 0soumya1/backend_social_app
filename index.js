@@ -9,19 +9,22 @@ const dotenv = require("dotenv");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/users");
 const postRouter = require("./routes/posts");
+const commentRouter = require("./routes/comments");
 
 dotenv.config();
 app.use(express.json());
 app.use(helmet()); 
 app.use(morgan("common"));
+app.use("/uploads", express.static("uploads"));
+//http://localhost:5000/uploads/1703429826773_food.jpg
+app.use("/socialapp/api/auth", authRouter);
+app.use("/socialapp/api/users", userRouter);
+app.use("/socialapp/api/post", postRouter);
+app.use("/socialapp/api/post/comment", commentRouter);
 
 // app.get("/user",(req,res)=>{
 //     res.send("hello user");
 // })
-
-app.use("/socialapp/api/auth", authRouter);
-app.use("/socialapp/api/users", userRouter);
-app.use("/socialapp/api/post", postRouter);
 
 mongoose
   .connect(process.env.MONGO_URL, {

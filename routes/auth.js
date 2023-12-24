@@ -8,7 +8,7 @@ router.post("/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     const newUser = new User({
-      username: req.body.username,
+      name: req.body.name,
       emailId: req.body.emailId,
       mobile: req.body.mobile,
       gender: req.body.gender,
@@ -37,7 +37,7 @@ router.post("/login", async (req, res) => {
           .status(200)
           .json({
             status: true,
-            message: "User found sucessfully",
+            message: "User found successfully",
             data: user,
           });
       } else {
