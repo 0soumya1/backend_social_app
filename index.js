@@ -22,9 +22,9 @@ app.use("/socialapp/api/users", userRouter);
 app.use("/socialapp/api/post", postRouter);
 app.use("/socialapp/api/post/comment", commentRouter);
 
-// app.get("/user",(req,res)=>{
-//     res.send("hello user");
-// })
+app.get("/",(req,res)=>{
+    res.send("hello user");
+})
 
 mongoose
   .connect(process.env.MONGO_URL, {
