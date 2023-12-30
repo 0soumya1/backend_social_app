@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 
+const cors = require("cors");
+app.use(cors());     
+
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 const helmet = require("helmet");
@@ -17,6 +20,7 @@ app.use(helmet());
 app.use(morgan("common"));
 app.use("/uploads", express.static("uploads"));
 //http://localhost:5000/uploads/1703429826773_food.jpg
+
 app.use("/socialapp/api/auth", authRouter);
 app.use("/socialapp/api/users", userRouter);
 app.use("/socialapp/api/post", postRouter);
