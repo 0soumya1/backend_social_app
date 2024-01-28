@@ -18,6 +18,9 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
+    bio:{
+        type:String
+    },
     password:{
         type: String,
         max: 50,
