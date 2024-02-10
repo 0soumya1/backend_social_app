@@ -16,7 +16,11 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
     await newUser.save();
-    res.status(200).json(newUser);
+    res.status(200).json({
+      status: true,
+      message: "User signup successfully",
+      data: newUser,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -34,15 +38,13 @@ router.post("/login", async (req, res) => {
         user.password
       );
       if (validPassword) {
-        res
-          .status(200)
-          .json({
-            status: true,
-            message: "User found successfully",
-            data: user,
-          });
+        res.status(200).json({
+          status: true,
+          message: "User found successfully",
+          data: user,
+        });
       } else {
-        res.status(200).json({ status: false, message: "Wrong password"});
+        res.status(200).json({ status: false, message: "Wrong password" });
       }
     }
   } catch (err) {
