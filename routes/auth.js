@@ -44,7 +44,7 @@ router.post("/login", async (req, res) => {
           data: user,
         });
       } else {
-        res.status(200).json({ status: false, message: "Wrong password" });
+        res.status(200).json({ status: false, message: "Wrong Credential" });
       }
     }
   } catch (err) {
