@@ -10,13 +10,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         max: 50,
         required: true,
-        unique: true
+        // unique: true
     },
     mobile:{
         type: String,
         max: 10,
         required: true,
-        unique: true
+        // unique: true
     },
     bio:{
         type:String,
@@ -58,4 +58,4 @@ const userSchema = new mongoose.Schema({
     },
 },{timestamps:true});
 
-module.exports = mongoose.model("users", userSchema);
+module.exports = mongoose.model("User", userSchema);
