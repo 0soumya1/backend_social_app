@@ -55,7 +55,7 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({
       emailId: req.body.emailId.toString().trim().toLowerCase(),
     });
-    !user && res.status(200).json({ status: false, message: "User not found" });
+    !user && resHandler(res, 400, false, "User not found", "");
     if (user) {
       const validPassword = await bcrypt.compare(
         req.body.password,
@@ -64,11 +64,11 @@ router.post("/login", async (req, res) => {
       if (validPassword) {
         resHandler(res, 200, true, "User found successfully", user);
       } else {
-        res.status(200).json({ status: false, message: "Wrong Credential" });
+        resHandler(res, 400, false, "Wrong Credential", "");
       }
     }
   } catch (err) {
-    res.status(500).json(err);
+    resHandler(res, 500, false, " login catch err", err);
   }
 });
 
