@@ -1,29 +1,38 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const resHandler = require("../middleware/resHandler");
 
 // register
 router.post("/register", async (req, res) => {
   try {
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    const newUser = new User({
-      name: req.body.name,
-      emailId: req.body.emailId,
-      mobile: req.body.mobile,
-      bio: req.body.bio,
-      gender: req.body.gender,
-      password: hashedPassword,
+    const hashedPassword = await bcrypt.hash(
+      req.body.password.toString().toLowerCase(),
+      salt
+    );
+
+    let emailExist = await User.findOne({
+      emailId: req.body.emailId.trim().toLowerCase(),
     });
-    await newUser.save();
-    res.status(200).json({
-      status: true,
-      message: "User signup successfully",
-      data: newUser,
-    });
+    if (emailExist) {
+      return resHandler(res, 400, false, "email already exist", "");
+    } else {
+      let data = {
+        name: req.body.name.toLowerCase(),
+        emailId: req.body.emailId.toLowerCase(),
+        mobile: req.body.mobile.toString(),
+        bio: "",
+        gender: req.body.gender.toLowerCase(),
+        password: hashedPassword,
+      };
+      let newUser = await User.create(data);
+
+      // res, code, isSuccess, msg, data
+      resHandler(res, 200, true, "User signup successfully", newUser);
+    }
   } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
+    resHandler(res, 500, false, " signup catch err", err);
   }
 });
 
