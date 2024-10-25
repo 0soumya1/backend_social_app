@@ -22,15 +22,12 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: "",
     },
-    bio: {
-      type: String,
-      default: "",
-    },
     gender: {
       type: String,
+      required: true,
       default: "",
     },
-    dob: {
+    bio: {
       type: String,
       default: "",
     },
