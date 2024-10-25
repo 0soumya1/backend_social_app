@@ -4,23 +4,26 @@ const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      required: true,
       default: "",
     },
     emailId: {
       type: String,
+      required: true,
       default: "",
     },
     mobile: {
       type: String,
-      default: "",
-    },
-    bio: {
-      type: String,
+      required: true,
       default: "",
     },
     password: {
       type: String,
       required: true,
+      default: "",
+    },
+    bio: {
+      type: String,
       default: "",
     },
     gender: {
