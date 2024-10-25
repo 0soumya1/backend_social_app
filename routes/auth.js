@@ -15,9 +15,22 @@ router.post("/register", async (req, res) => {
     let emailExist = await User.findOne({
       emailId: req.body.emailId.trim().toLowerCase(),
     });
+
     if (emailExist) {
       return resHandler(res, 400, false, "email already exist", "");
     } else {
+      if (!req.body.emailId) {
+        return resHandler(res, 400, false, "email required", "");
+      }
+      if (!req.body.password) {
+        return resHandler(res, 400, false, "password required", "");
+      }
+      if (!req.body.name) {
+        return resHandler(res, 400, false, "name required", "");
+      }
+      if (!req.body.mobile) {
+        return resHandler(res, 400, false, "mobile required", "");
+      }
       let data = {
         name: req.body.name.toLowerCase(),
         emailId: req.body.emailId.toLowerCase(),
@@ -39,7 +52,9 @@ router.post("/register", async (req, res) => {
 // login
 router.post("/login", async (req, res) => {
   try {
-    const user = await User.findOne({ emailId: req.body.emailId });
+    const user = await User.findOne({
+      emailId: req.body.emailId.toString().trim().toLowerCase(),
+    });
     !user && res.status(200).json({ status: false, message: "User not found" });
     if (user) {
       const validPassword = await bcrypt.compare(
@@ -47,11 +62,7 @@ router.post("/login", async (req, res) => {
         user.password
       );
       if (validPassword) {
-        res.status(200).json({
-          status: true,
-          message: "User found successfully",
-          data: user,
-        });
+        resHandler(res, 200, true, "User found successfully", user);
       } else {
         res.status(200).json({ status: false, message: "Wrong Credential" });
       }
