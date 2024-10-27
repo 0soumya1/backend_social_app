@@ -51,22 +51,19 @@ router.post("/register", async (req, res) => {
 
 // login
 router.post("/login", async (req, res) => {
+  const emailId = req.body.emailId.toString().trim().toLowerCase();
+  const pass = req.body.password.toString().toLowerCase();
   try {
-    const user = await User.findOne({
-      emailId: req.body.emailId.toString().trim().toLowerCase(),
-    });
-    !user && resHandler(res, 400, false, "User not found", "");
-    if (user) {
-      const validPassword = await bcrypt.compare(
-        req.body.password.toString().toLowerCase(),
-        user.password.toString().toLowerCase()
-      );
-      if (validPassword) {
-        resHandler(res, 200, true, "User found successfully", user);
-      } else {
-        resHandler(res, 400, false, "Wrong Credential", "");
-      }
-    }
+    const user = await User.findOne({ emailId });
+    console.log("user", user);
+    if (!user) return resHandler(res, 400, false, "User not found", "");
+
+    const validPassword = await bcrypt.compare(pass, user.password);
+
+    if (!validPassword)
+      return resHandler(res, 400, false, "Wrong password", "");
+
+    resHandler(res, 200, true, "User found successfully", user);
   } catch (err) {
     resHandler(res, 500, false, " login catch err", err);
   }
