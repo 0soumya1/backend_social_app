@@ -13,6 +13,8 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/users");
 const postRouter = require("./routes/posts");
 const commentRouter = require("./routes/comments");
+const conversationRouter = require("./routes/conversations");
+const messageRouter = require("./routes/messages");
 
 dotenv.config();
 app.use(express.json());
@@ -25,6 +27,8 @@ app.use("/socialapp/api/auth", authRouter);
 app.use("/socialapp/api/users", userRouter);
 app.use("/socialapp/api/post", postRouter);
 app.use("/socialapp/api/post/comment", commentRouter);
+app.use("/socialapp/api/conversations", conversationRouter);
+app.use("/socialapp/api/messages", messageRouter);
 
 app.get("/", (req, res) => {
   res.send("hello user");

@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const User = require("../models/User");
+const resHandler = require("../middleware/resHandler");
 
 //update
 router.put("/update/:id", async (req, res) => {
@@ -81,6 +82,21 @@ router.get("/getUser/:id", async (req, res) => {
   }
 });
 
+// get user by username and id
+router.get("/", async (req, res) => {
+  const userId = req.query.userId;
+  const name = req.query.name;
+  try {
+    const user = userId
+      ? await User.findById(userId)
+      : await User.findOne({ name: name });
+    const { password, updatedAt, ...other } = user._doc;
+    resHandler(res, 200, true, "get user success", other);
+  } catch (err) {
+    resHandler(res, 500, false, "get user catch err", err);
+  }
+});
+
 //follow
 router.put("/follow/:id", async (req, res) => {
   try {
@@ -116,11 +132,11 @@ router.put("/follow/:id", async (req, res) => {
         { $push: { following: req.params.id } }
       );
       res
-      .status(200)
-      .json({ status: true, message: "followed user successfully" });
+        .status(200)
+        .json({ status: true, message: "followed user successfully" });
     }
   } catch (err) {
-    res.status(500).json(err)
+    res.status(500).json(err);
   }
 });
 
